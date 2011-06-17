@@ -1,0 +1,16 @@
+{
+  "author": "jgranqvist <jgranqvist@gmail.com> (twitter.com/jgranqvist)",
+  "name": "wordcube",
+  "description": "A module to create word cubes with solutions for use in word games",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jntn/wordcube.git"
+  },
+  "engines": {
+    "node": "~v0.4.8"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "main": "./lib/wordcube"
+}
