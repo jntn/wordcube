@@ -87,7 +87,7 @@ vows.describe('Wordcube').addBatch({
                     return word.toUpperCase()
                 }
             })
-            wordcube.createWordCube(4, 4, wordList, this.callback)
+            wordcube.createWordCube(5, 5, wordList, this.callback)
         },
         'it should return an object of valid parts': function(err, wordCube) {
             //eyes(wordCube)
