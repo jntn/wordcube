@@ -37,6 +37,7 @@ vows.describe('WordSearch').addBatch({
         'it should contain word A': function(err, words) {
             assert.length(words, 1)
             assert.equal(words[0].word, 'A')
+            assert.equal(words[0].path[0].number, 1)
         }
     },
 
@@ -53,6 +54,14 @@ vows.describe('WordSearch').addBatch({
             assert.include(_.map(words, function(word) {return word.word }), 'AC')
             assert.include(_.map(words, function(word) {return word.word }), 'ACDB')
             assert.include(_.map(words, function(word) {return word.word }), 'ABDC')
+            assert.equal(words[2].word, "AC")
+            assert.equal(words[2].path[0].number, 1)
+            assert.equal(words[2].path[1].number, 3)
+            assert.equal(words[1].word, "ABDC")
+            assert.equal(words[1].path[0].number, 1)
+            assert.equal(words[1].path[1].number, 2)
+            assert.equal(words[1].path[2].number, 4)
+            assert.equal(words[1].path[3].number, 3)
         }
     },
 
