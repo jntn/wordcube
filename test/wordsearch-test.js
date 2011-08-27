@@ -3,14 +3,14 @@ require.paths.unshift(require('path').join(__dirname, '..', 'lib'))
 var assert = require('assert'),
     vows = require('vows'),
     eyes = require('eyes').inspector({maxLength: 10000}),
-    wordcube = require('wordcube'),
+    wordsearch = require('wordsearch'),
     solver = require('solver'),
     fs = require('fs'),
     _ = require('underscore')
 
-vows.describe('Wordcube').addBatch({
-    'When I create a word cube that is 5x5': {
-        topic: wordcube.generateCube(5,5),
+vows.describe('WordSearch').addBatch({
+    'When I create a board that is 5x5': {
+        topic: wordsearch.generateBoard(5,5),
         'it should be a 2 dim array each with the length of 5': function(cube) {
             assert.equal(cube.length, 5)
             assert.equal(cube[0].length, 5)
@@ -21,8 +21,8 @@ vows.describe('Wordcube').addBatch({
         }
     },
 
-    'When I create a word cube that is 5x5': {
-        topic: wordcube.generateCube(5,5),
+    'When I create a board that is 5x5': {
+        topic: wordsearch.generateBoard(5,5),
         'the letters should be numbered correctly': function(cube) {
             assert.equal(cube[0][0].number, 1)
             assert.equal(cube[1][0].number, 6)
@@ -30,7 +30,7 @@ vows.describe('Wordcube').addBatch({
         }
     },
 
-    'When I create a 1x1 wordcube with the letter A': {
+    'When I create a 1x1 board with the letter A': {
         topic: function() {
             solver.solve([[{'letter' : 'A'}]], ['A'], this.callback) 
         },
@@ -39,7 +39,8 @@ vows.describe('Wordcube').addBatch({
             assert.equal(words[0].word, 'A')
         }
     },
-    'When I create a 2x2 wordcube with predefined letters and words': {
+
+    'When I create a 2x2 board with predefined letters and words': {
         topic: function () {
             solver.solve(
             [
@@ -54,7 +55,8 @@ vows.describe('Wordcube').addBatch({
             assert.include(_.map(words, function(word) {return word.word }), 'ABDC')
         }
     },
-    'When I create a 3x3 wordcube with predefined letters and words': {
+
+    'When I create a 3x3 board with predefined letters and words': {
         topic: function () {
             solver.solve(
             [
@@ -69,7 +71,8 @@ vows.describe('Wordcube').addBatch({
             assert.include(_.map(words, function(word) {return word.word }), 'ABEDGHIFC')
         }
     },
-    'When I create a 5x5 wordcube with predefined letters and words': {
+
+    'When I create a 5x5 board with predefined letters and words': {
         topic: function() {
             solver.solve(
             [
@@ -89,7 +92,8 @@ vows.describe('Wordcube').addBatch({
             assert.include(_.map(words, function(word) {return word.word }), 'YXWVQLGFK')
         }
     },
-    'When I create a 4x4 wordcube with random letters and a big word list': {
+
+    'When I create a 4x4 board with random letters and a big word list': {
         topic: function () {
             var wordList = fs.readFileSync(__dirname + '/wordlist.txt').toString().split('\n')
             wordList = _.map(wordList, function(word){
@@ -97,16 +101,17 @@ vows.describe('Wordcube').addBatch({
                     return word.toUpperCase()
                 }
             })
-            wordcube.createWordCube(5, 5, wordList, this.callback)
+            wordsearch.createGame(5, 5, wordList, this.callback)
         },
-        'it should return an object of valid parts': function(err, wordCube) {
-            eyes(wordCube)
-			console.log(wordCube.words.length + " words in cube")
-			var longestWord = _.max(wordCube.words, function(w){return w.word.length}).word
-			console.log("The longest word is " + longestWord + " (" + longestWord.length + ")")
-            assert.isObject(wordCube)
-            assert.isArray(wordCube.words)
-            assert.isArray(wordCube.cube)
+        'it should return an object of valid parts': function(err, game) {
+            assert.isObject(game)
+            assert.isArray(game.words)
+            assert.isArray(game.board)
+            //eyes(game)
+            console.log('\nInfo:')
+            console.log('  ' + game.words.length + " words in game")
+            var longestWord = _.max(game.words, function(w){return w.word.length}).word
+            console.log('  ' + "The longest word is " + longestWord + " (" + longestWord.length + ")")
         }
     }
 }).export(module)
