@@ -20,6 +20,16 @@ vows.describe('Wordcube').addBatch({
             assert.equal(cube[4].length, 5)
         }
     },
+
+    'When I create a word cube that is 5x5': {
+        topic: wordcube.generateCube(5,5),
+        'the letters should be numbered correctly': function(cube) {
+            assert.equal(cube[0][0].number, 1)
+            assert.equal(cube[1][0].number, 6)
+            assert.equal(cube[4][4].number, 25)
+        }
+    },
+
     'When I create a 1x1 wordcube with the letter A': {
         topic: function() {
             solver.solve([[{'letter' : 'A'}]], ['A'], this.callback) 
@@ -90,7 +100,10 @@ vows.describe('Wordcube').addBatch({
             wordcube.createWordCube(5, 5, wordList, this.callback)
         },
         'it should return an object of valid parts': function(err, wordCube) {
-            //eyes(wordCube)
+            eyes(wordCube)
+			console.log(wordCube.words.length + " words in cube")
+			var longestWord = _.max(wordCube.words, function(w){return w.word.length}).word
+			console.log("The longest word is " + longestWord + " (" + longestWord.length + ")")
             assert.isObject(wordCube)
             assert.isArray(wordCube.words)
             assert.isArray(wordCube.cube)
