@@ -62,7 +62,7 @@ vows.describe('WordSearch').addBatch({
             assert.equal(words[1].path[1].number, 2)
             assert.equal(words[1].path[2].number, 4)
             assert.equal(words[1].path[3].number, 3)
-        }
+}
     },
 
     'When I create a 3x3 board with predefined letters and words': {
@@ -121,6 +121,37 @@ vows.describe('WordSearch').addBatch({
             console.log('  ' + game.words.length + " words in game")
             var longestWord = _.max(game.words, function(w){return w.word.length}).word
             console.log('  ' + "The longest word is " + longestWord + " (" + longestWord.length + ")")
+        }
+    },
+
+    'WHen I create a cube with added words': {
+        topic: function () {
+            var wordList = fs.readFileSync(__dirname + '/wordlist.txt').toString().split('\n')
+            wordList = _.map(wordList, function(word){
+                if (word.length > 1) {
+                    return word.toUpperCase()
+                }
+            })
+            wordsearch.createGame(7, 7, wordList, this.callback, ['STOOL', 'COMPUTER', 'MOON', 'KEY', 'BOOM', 'LOOSE', 'APPLE'])//, 'FLASK', 'DOG', 'FLY', 'GROUND', 'TABLE', 'UP', 'TO'])
+        },
+        'the added words should be found': function (err, game) {
+            //_.any(game.words, function(w) { return w.}
+            assert.include(_.map(game.words, function(word) { return word.word }), 'STOOL')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'COMPUTER')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'MOON')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'KEY')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'BOOM')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'LOOSE')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'APPLE')/*
+            assert.include(_.map(game.words, function(word) { return word.word }), 'FLASK')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'DOG')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'FLY')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'GROUND')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'TABLE')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'UP')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'TO')*/
+
+
         }
     }
 }).export(module)
