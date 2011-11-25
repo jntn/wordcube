@@ -35,7 +35,7 @@ vows.describe('WordSearch').addBatch({
             solver.solve([[{'letter' : 'A'}]], ['A'], this.callback) 
         },
         'it should contain word A': function(err, words) {
-            assert.length(words, 1)
+            assert.equal(words.length, 1)
             assert.equal(words[0].word, 'A')
             assert.equal(words[0].path[0].number, 1)
         }
@@ -62,7 +62,7 @@ vows.describe('WordSearch').addBatch({
             assert.equal(words[1].path[1].number, 2)
             assert.equal(words[1].path[2].number, 4)
             assert.equal(words[1].path[3].number, 3)
-}
+        }
     },
 
     'When I create a 3x3 board with predefined letters and words': {
@@ -116,11 +116,6 @@ vows.describe('WordSearch').addBatch({
             assert.isObject(game)
             assert.isArray(game.words)
             assert.isArray(game.board)
-            //eyes(game)
-            console.log('\nInfo:')
-            console.log('  ' + game.words.length + " words in game")
-            var longestWord = _.max(game.words, function(w){return w.word.length}).word
-            console.log('  ' + "The longest word is " + longestWord + " (" + longestWord.length + ")")
         }
     },
 
@@ -132,26 +127,13 @@ vows.describe('WordSearch').addBatch({
                     return word.toUpperCase()
                 }
             })
-            wordsearch.createGame(7, 7, wordList, this.callback, ['STOOL', 'COMPUTER', 'MOON', 'KEY', 'BOOM', 'LOOSE', 'APPLE'])//, 'FLASK', 'DOG', 'FLY', 'GROUND', 'TABLE', 'UP', 'TO'])
+            wordsearch.createGame(7, 7, wordList, this.callback, ['STOOL', 'COMPUTERS', 'MOON', 'KEY', 'BOOM', 'LOOSE', 'APPLE', 'FLASK','ASPHALT','DOG', 'FLY', 'GROUND', 'TABLE', 'UP', 'TO'])
         },
-        'the added words should be found': function (err, game) {
-            //_.any(game.words, function(w) { return w.}
-            assert.include(_.map(game.words, function(word) { return word.word }), 'STOOL')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'COMPUTER')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'MOON')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'KEY')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'BOOM')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'LOOSE')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'APPLE')/*
-            assert.include(_.map(game.words, function(word) { return word.word }), 'FLASK')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'DOG')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'FLY')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'GROUND')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'TABLE')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'UP')
-            assert.include(_.map(game.words, function(word) { return word.word }), 'TO')*/
-
-
+        'the first two add words should be found': function (err, game) {
+            // The words are added longest to shortest, so the two longest
+            // word should be in there
+            assert.include(_.map(game.words, function(word) { return word.word }), 'COMPUTERS')
+            assert.include(_.map(game.words, function(word) { return word.word }), 'ASPHALT')
         }
     }
 }).export(module)
