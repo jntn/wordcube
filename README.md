@@ -1,6 +1,6 @@
 # wordcube #
 
-A library to create cubes of letters with hidden words. The words can be found by tracing in any direction horizontilly or vertically. Here is an example with the word PUZZLE highlighted.
+A library to create word grid of letters with hidden words. The words can be found by tracing in any direction horizontally or vertically. Here is an example with the word PUZZLE highlighted.
 <table>
     <tr>
         <td>A</td>
@@ -43,11 +43,17 @@ A library to create cubes of letters with hidden words. The words can be found b
     </tr>
 </table>
 
-To create a 5x5 word cube with random words from a word list:
+To create a 5x5 word game with random words from a word list:
 
-    wordcube = require('wordcube')
-    wordcube.createWordcube(5, 5, wordList, function(cube){
-    	// cube is the word cube!
-    })
+    var wordsearch = require('wordsearch');
+    var wordList = ['CAT', 'MOUSE', ... ]
+    wordcube.createWordcube(5, 5, wordList, function(wordGrid) {
+        //use wordGrid!
+    });
+
+    var solver = require('solver')
+    solver.solve(square, ['CAT', 'MOUSE', ... ], function(solvedWordGrid) {
+        //use solvedWordGrid which contains found word and their position in the wordGrid
+    });
 
 The word list is a sorted array of uppercase words.
